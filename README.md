@@ -1,2 +1,4 @@
 # receptoR
-## This is the code for performing receptor gene expression analysis
+This is the R code for performing receptor gene expression analysis on transcriptomics data. The principle behind **receptoR** is that by pooling large numbers of existing transcriptomics datasets, we can identify molecular receptors expressed by specific cell types, and use this information to generate hypotheses about signaling modalities that influence cell behaviour. A live implementation of is available at https://wcm.ucalgary.ca/ungrinlab/receptoR, using publicly available microarray datasets from the GEO database (https://www.ncbi.nlm.nih.gov/geo). Using the code provided here, our analysis pipeline can be implemented on any type of data.
+## Getting started with receptoR
+After downloading the repository, ensure that you have a working version of R (>= 3.5) and install packages from CRAN ('dplyr','dbplyr','tidyr','ggplot2','RColorBrewer','readr','stringr','shiny','shinythemes','shinyjs','DT', 'pool', 'writexl') and from Bioconductor ('GEOmetadb', 'GEOquery', 'affy', 'limma', 'annotate', 'pheatmap', 'mixOmics', 'cowplot'). 
