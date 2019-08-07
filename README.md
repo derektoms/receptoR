@@ -23,7 +23,7 @@ receptoR working version of R (>= 3.5) and packages from CRAN ('dplyr', 'dbplyr'
 There's only one exported function in the package and it runs the Shiny app:
 
 ``` r
-shinyAppDemo::launchApp()
+receptoR::launchApp()
 ```
 
 ---

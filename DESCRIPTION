@@ -6,6 +6,7 @@ Authors@R: c(person("Derek", "Toms", email = "derek.toms@ucalgary.ca", role = c(
 Description: Predict potentially active signalling pathways in one or more cell type(s) of interest from transcriptome data. Our approach can be easily used to mine transcriptome data and generate hypotheses around receptor expression that can be used to identify novel signaling pathways in specific cell types of interest.
 License: GPLv3
 LazyData: TRUE
+biocViews:
 Depends: affy,dplyr,tidyr,ggplot2,reshape2,RColorBrewer,readr,stringr,shiny,shinythemes,shinyjs,dbplyr,DT,limma,annotate,pheatmap,mixOmics,cowplot,writexl
 RoxygenNote: 6.1.1
 Suggests: knitr, rmarkdown
