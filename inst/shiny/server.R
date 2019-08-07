@@ -5,9 +5,10 @@
 # |_|  \___|\___\___| .__/ \__\___/|_| \_\
 #                   |_|
 #
-# June 2019 receptoR v 1.3
-## Last update: 2019-06-22, Derek Toms
+# August 2019 receptoR v 1.3
+## Last update: 2019-08-07, Derek Toms
 ## server.R
+
 
 
 ########################################
@@ -15,84 +16,37 @@
 ########################################
 
 # App structural packages:
-#install.packages(c('dplyr','dbplyr','tidyr','ggplot2','RColorBrewer','readr','stringr','shiny','shinythemes','shinyjs','DT'))
 
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(reshape2)
-library(RColorBrewer)
-library(readr)
-library(stringr)
-library(shiny)
-library(shinythemes)
-library(shinyjs)
-library(dbplyr)
-library(DT)
+#' @import dplyr
+#' @import tidyr
+#' @import ggplot2
+#' @import reshape2
+#' @import RColorBrewer
+#' @import readr
+#' @import stringr
+#' @import shiny
+#' @import shinythemes
+#' @import shinyjs
+#' @import dbplyr
+#' @import DT
 
-# Bioinformatics packages installed via biocLite:
-#source("https://bioconductor.org/biocLite.R")
-#biocLite(c('limma','annotate','genefilter','ComplexHeatmap','pheatmap','cowplot','GEOmetadb','mouse4302.db','hgu133plus2.db'))
-#biocLite(c('mixOmics','MergeMaid','GEOquery','inSilicoMerging','affy','sva','Rtsne','metaArray','testthat'))
+# Bioinformatics packages installed BiocManager:
 
-library(GEOmetadb)
-library(GEOquery)
-library(affy)
+#' @import BiocManager
 
-library(limma)
-library(annotate)
-library(pheatmap)
-library(mixOmics)
-library(cowplot)
+#' @import Biobase
+#' @import limma
+#' @import annotate
+#' @import pheatmap
+#' @import mixOmics
+#' @import cowplot
+#' @import affy
 
-library(pool)
-library(writexl)
-
-# Microarray platform annotations:
-library(mouse4302.db)
-library(hgu133plus2.db)
-library(hgu133plus2cdf) # 2019-04-14 required
-library(mouse4302cdf)
+#' @import writexl
 
 source("functions.R")
-## 2019-03-27 Ran this to get the latest database
-# if(!file.exists('./../data/GEOmetadb.sqlite')) getSQLiteFile()
-load("./../2019-04_genelists.rda")
-
-#------------------------------------------------------------------------------------+
-### for local work
-# load("~/Documents/Retina/CNIB_TuckMacPhee/Bioinformatics/2018-12_genelists.rda")
-# poolGEO <- dbPool(
-#   drv = RSQLite::SQLite(),
-#   dbname = "/Volumes/ULTRA/across_array/GEOmetadb.sqlite"
-# )
-#
-# poolUserData <- dbPool(
-#   drv = RSQLite::SQLite(),
-#   dbname = "~/Documents/Retina/CNIB_TuckMacPhee/Bioinformatics/2019-06-15 v1.3 Update/receptoRUserData.sqlite"
-# )
-#------------------------------------------------------------------------------------+
-
-# 2019-03-04
-## Connection to GEO Metadata DB
-poolGEO <- dbPool(
-  drv = RSQLite::SQLite(),
-  dbname = "./data/GEOmetadb.sqlite"
-)
-
-poolUserData <- dbPool(
-  drv = RSQLite::SQLite(),
-  dbname = "./data/receptoRUserData.sqlite"
-)
-
-onStop(function() {
-  poolClose(poolGEO)
-  poolClose(poolUserData)
-})
-
-## Initialize user experiments to load
-global <- reactiveValues (DatasetTable = loadUserDatasets(poolUserData))
-
+global <- reactiveValues (DatasetTable = loadUserDatasets())
+options(shiny.maxRequestSize=30*1024^2) ## 30 MB max file upload
 ########################################
 #$#$#$#$#$#$#    SERVER    #$#$#$#$#$#$#
 ########################################
@@ -102,6 +56,7 @@ server <- function(input, output, session) {
 #   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-
 #  / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \
 # `-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'
+
 #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
 ## This is the database search begins
 #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
@@ -114,70 +69,71 @@ observeEvent(input$linkSearch, {
 
 # Set up colour environment
 #_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
-  catCol <- brewer.pal(3, "Set1")
+  catCol <- RColorBrewer::brewer.pal(3, "Set1")
   rowCol <-desat(catCol)
   userID <- NULL
  
-# Search functions 
-#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
-  
-  searchGSM <- eventReactive(input$searchButton, {
-      if(input$gplSelection=='human'){
-          sql<-"SELECT * FROM appgsm WHERE description MATCH ?id1 AND gpl LIKE 'GPL570';"
-      } else {
-          sql<-"SELECT * FROM appgsm WHERE description MATCH ?id1 AND gpl LIKE 'GPL1261';"
-      }
-      query<-sqlInterpolate(poolGEO,sql,id1=input$searchText)
-      queryGSM<-dbGetQuery(poolGEO,query)
-      shinyjs::disable("gplSelection")
-      return(queryGSM)
-  })
-
-  output$searchResultsGSM <- DT::renderDataTable({
-          searchGSM()}, extensions = 'Buttons', options=list(
-              dom = 'Bfrtip',
-              buttons = list(list(extend = 'colvis')),
-              searching=TRUE, 
-              paging=FALSE,
-              scrollX=TRUE, 
-              scrollY='60vh', 
-              scrollCollapse=TRUE,
-              fixedHeader=TRUE,
-              autoWidth=TRUE,
-              columnDefs=list(list(
-              targets = "_all",
-              render = JS(
-                  "function(data, type, row, meta) {",
-                      "return type === 'display' && typeof data === 'string' && data.length > 100 ?",
-                      "'<span title=\"' + data + '\">' + data.substr(0, 100) + '...</span>' : data;",
-                      "}") 
-                      )))) ## typeof data needs to be a string, as a "NA" converted to JS "NULL" breaks things
-
-# Set up tables to store user-selected data
-#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
-
-  proxy.search = dataTableProxy('searchResultsGSM')
-
   ## Set up reactive table to store experimental samples
   userSamples <- reactiveValues()
   userSamples$df <- data.frame()
     
-# Add sample (array) record to the current experiment 
-#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
- 
-  observeEvent(input$addButton, {
-      gsm_selected <- searchGSM()[input$searchResultsGSM_rows_selected,]
-      gsm_selected$category <- rep("Not yet assigned", nrow(gsm_selected))
-      userSamples$df <<- rbind(userSamples$df,gsm_selected)
-      proxy.search %>% selectRows(NULL)
-      updateTabsetPanel(session = session, inputId = "searchpanel", selected = "2")
+  # 2019-07-31 Upload user data
+  # Upload read count table
+  #_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
+  userEset <- reactive({
+      inFile <- input$eset_upload
+      if (is.null(inFile))
+          return(NULL)
+      df<- read.csv(inFile$datapath,header=TRUE,sep=",")
+      return(df)
+  })
+  
+  output$upload_table <- DT::renderDataTable({
+      df <- userEset()
+      datatable(df, options=list(
+          searching=TRUE, 
+          paging=TRUE,
+          scrollX=TRUE, 
+          scrollY='25vh',
+          scrollCollapse=TRUE,
+          fixedHeader=TRUE,
+          autoWidth=FALSE))
+      })
+  
+  observeEvent(input$uploadButton, {
+      showModal(modalDialog(title="Select your data to upload for analysis","Make sure things look right before proceeding. There is the ability to add some options here, if I want to make it slightly more flexible (e.g. separator, header).", radioButtons("speciesSelection", "Choose species:", choices = c("Mouse" = "mouse", "Human" = "human")),
+          fileInput('eset_upload','Choose file to upload', accept = c('text/csv','text/comma-separated-values','.csv')),
+          DT::dataTableOutput("upload_table"),
+          easyClose = TRUE,
+          footer = tagList(
+              actionButton("uploaded","Upload read table"))))
+  })
+  
+  # 'uploaded file' flag
+  eset_is_uploaded = FALSE
+  
+  observeEvent(input$uploaded, {
+      eset_is_uploaded <<- TRUE
+      removeModal()
+      uploadSamples <- userEset()
+      tableRows <- ncol(uploadSamples)
+      userSamples$df <<- data.frame(samples = colnames(uploadSamples), category = rep("Not yet assigned", tableRows), features = rep(nrow(uploadSamples), tableRows), description = rep("User uploaded samples",tableRows))
+      updateTabsetPanel(session = session, inputId = "searchpanel", selected = "2")  ## jump to 'Assign' tab
+  })
+
+  observeEvent(input$clear_upload, {
+      eset_is_uploaded <<- FALSE
+      userSamples$df <<- data.frame()
+      removeModal()
   })
 
 # Assign categories to each sample (GSM)
 #_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
   
   observeEvent(input$assignButton, {
+        userSamples$df[,"category"] <<- as.character(userSamples$df[,"category"])
         userSamples$df[input$gsm_table_rows_selected,"category"] <<- input$selection
+        userSamples$df[,"category"] <<- as.factor(userSamples$df[,"category"])
   })      
    
   output$gsm_table <- DT::renderDataTable({
@@ -223,7 +179,7 @@ observeEvent(input$linkSearch, {
       }
   })
                  
-  proxy.gsm = dataTableProxy('gsm_table')
+  proxy.gsm = DT::dataTableProxy('gsm_table')
  
   observeEvent(input$assignButton,{
       proxy.gsm %>% selectRows(NULL)
@@ -282,51 +238,30 @@ rv <- reactiveValues(download_flag = 0)
 
 
   output$report <- downloadHandler(
-      filename = function(){paste(input$downloadId,"GSM_report.csv",sep="_")},
+      filename = function(){paste(input$downloadId,"processed_data.rda",sep="_")},
       content = function(file){
-          write.csv(userSamples$finishedtable,file)
+          save(mylist,file = file)
           rv$download_flag <- rv$download_flag + 1
       })
 
-# Modal confirming CEL download, and processing function
-#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_     
-observeEvent(input$downloadCEL, {
-    userSamples$finishedtable %>% group_by(category) %>% summarise(n.gse = n_distinct(series_id)) -> gse.check
-    warning <- "Please click below to begin processing the data."
-    numCat <- length(gse.check$category)>1
-    if(length(which(gse.check$n.gse==1))!=0){
-        catAlert <- paste(gse.check$category[which(gse.check$n.gse==1)], collapse = ", ")
-        warning <- paste("WARNING: The following categories contain samples from a single experiment (GSE) and as such they will be confounded by batch effects: ",catAlert,".<br>Please proceed with caution or cancel and select additional samples to add to these categories.",sep="")
-    }
-    if(!numCat){
-        showModal(modalDialog(title="Error! A minimum of two categories are needed.","Experimental samples need to be organized into 2 or 3 categories for appropriate downstream analysis. If you are interested in only one type of sample, we suggest choosing samples to act as 'background', which will allow for differential analysis to identify which receptor genes are enriched or depleted in your sample of interest.",
-        easyClose = TRUE,
-        footer = tagList(
-            modalButton("Cancel")))) 
-    } else {
-        showModal(modalDialog(title="Important! Downloading raw .CEL files from the NCBI server.",HTML(paste("June 20th, 2019<br>",warning)),
-        easyClose = TRUE,
-        footer = tagList(
-            modalButton("Cancel"),
-            actionButton("process","Proceed"))))      
-    }
-  })
 
-observeEvent(input$process, {
-    shinyjs::disable("process")
-    userID <<- processData(userSamples$finishedtable, input$downloadId, input$comments, input$gplSelection, poolUserData)
-    global$DatasetTable <<- loadUserDatasets(poolUserData)
-    removeModal()
-    showModal(modalDialog(title="Your dataset was successfully processed!","Analyse your data in the 'Load Expression Datasets' tab. You can also download a report from this page.",
-    easyClose = TRUE,
-    footer = tagList(
-        modalButton("OK"))))# modal
-  })
+
+# Modal confirming download, and processing function
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_     
+observeEvent(input$downloadRDA, {
+            shinyjs::disable("downloadRDA")
+            mylist<<-processDataUpload(userSamples$finishedtable, userEset(), input$downloadId, input$comments, input$speciesSelection)
+            showModal(modalDialog(title="Your dataset was successfully processed!","Next, save the processed data file to your local computer using the \"Download\" button. This file can then be uploaded from the menu on the \"Load Expression Datasets\" tab.",
+            easyClose = TRUE,
+            footer = tagList(
+                actionButton("processedOK","OK"),downloadButton("report","Download"))))# modal
+        })
+
 
 # Reset button, modal confirmation
 #_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
   observeEvent(input$linkReset, {
-      showModal(modalDialog(title="Important! Are you sure you want to reset everything?","All searches and categorized samples will be lost. This can not be undone.",
+      showModal(modalDialog(title="Important! Are you sure you want to reset everything?","All data and categorized samples will be lost. This can not be undone.",
       footer = tagList(
           modalButton("Cancel"),
           actionButton("buttonReset","Yes, reset."))))# modal
@@ -359,8 +294,8 @@ observeEvent(input$process, {
 ## This is where the analysis begins
 #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
 
-# Quick link from the main page
-observeEvent(input$linkLoad, {
+# Quick link from the modal
+observeEvent(input$processedOK, {
   updateNavbarPage(session, "receptorMain", selected="expressionPanel")
 })
 
@@ -382,43 +317,78 @@ observeEvent(input$user_data,{
 # Load dataset
 #_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
 output$loadUserExperiments = renderUI({
-    selectizeInput(inputId="user_data",label="Select an experiment for analysis",choices=c("none"="none",split(global$DatasetTable$desc, global$DatasetTable$species)),selected="none")
+    selectizeInput(inputId="user_data",label="Select an experiment for analysis",choices=c("none"="none","upload processed data file (.rda)"="upload",paste(global$DatasetTable$desc)),selected="none")
 })
 
+
+userProcessed <- reactive({
+    inFile2 <- input$processed_upload
+    if (is.null(inFile2))
+        return(NULL)
+    load(inFile2$datapath,.GlobalEnv)
+    return(mylist)
+})
 
 observeEvent(input$user_data,{
     id <- NULL
     datasetToLoad <- NULL
    
    if(input$user_data=="none"){
-        mapped_probes<<-NULL
-        eset<<-NULL
-        de_choices<<-NULL
-        sig_genes_lfc<<-NULL
-    }else{         
+        assign(x = "uploaded_features", value = NULL, envir = .GlobalEnv) ## ^ this set will be used for uploaded data
+        assign(x = "eset", value = NULL, envir = .GlobalEnv)
+        assign(x = "de_choices", value = NULL, envir = .GlobalEnv)
+        assign(x = "sig_genes_lfc", value = NULL, envir = .GlobalEnv)
+
+    } else if (input$user_data == "upload"){
+            
+        showModal(modalDialog(title="Select your data to upload for visualization",
+            fileInput('processed_upload','Choose file to upload', accept = c('.rda')),
+            easyClose = TRUE, footer = tagList(actionButton("uploadAnalysis","Analyse"),modalButton("Cancel"))))
+            
+        } else {
         id <- global$DatasetTable$userID[which(global$DatasetTable$desc == input$user_data)]
-        assign(
-              x = "species", value = global$DatasetTable$species[which(global$DatasetTable$desc == input$user_data)], envir = .GlobalEnv
-           )
-        datasetToLoad <- paste("./data/app_data_", id, ".rda", sep='')
+        assign(x = "species", value = global$DatasetTable$species[which(global$DatasetTable$desc == input$user_data)], envir = .GlobalEnv)
+        assign(x = "uploaded_features", value = NULL, envir = .GlobalEnv) ## I think this might have to be here for non-uploaded datasets
+        datasetToLoad <- system.file("extdata",paste("app_data_", id, ".rda", sep=''),package="receptoR")
         withProgress(message="Loading dataset",value=0.2,{
             load(datasetToLoad,envir=.GlobalEnv)
-            
             incProgress(0.3, message = "Loading contrasts")
-            
-            updateCheckboxGroupInput(session, "tissues", choices = groups, selected = groups)
-            updateCheckboxGroupInput(session, "pls_tissues", choices = groups, selected = groups)
+            # cat(file=stderr(),"Groups are the issue:\n",categories,"\nDE choices:\n",de_choices,"\n")
+            updateCheckboxGroupInput(session, "tissues", choices = categories, selected = categories)
+            updateCheckboxGroupInput(session, "pls_tissues", choices = categories, selected = categories)
             updateCheckboxGroupInput(session, "de", choices = de_choices, selected = de_choices[1])
-            
+
             incProgress(0.3, message ="Loading genelists")
             updateCheckboxGroupInput(session, "genelist", label = NULL, choices = names(gene_lists[[species]]), selected = NULL, inline = FALSE)
-            
             incProgress(0.2, message = "Loading gene names")
-            updateSelectInput(session, "gene", choices = all_genes[species])
+            updateSelectInput(session, "gene", choices = make.names(uploaded_features))
         })
         
     }
     
+})
+
+observeEvent(input$uploadAnalysis, {
+    
+    withProgress(message="Loading dataset",value=0.2,{
+        incProgress(0.3, message = "Loading contrasts")
+        assign(x = "uploaded_features", value = userProcessed()$uploaded_features, envir = .GlobalEnv)
+        assign(x = "eset", value = userProcessed()$eset, envir = .GlobalEnv)
+        assign(x = "de_choices", value = userProcessed()$de_choices, envir = .GlobalEnv)
+        assign(x = "sig_genes_lfc", value = userProcessed()$sig_genes_lfc, envir = .GlobalEnv)
+        assign(x = "categories", value = userProcessed()$categories, envir = .GlobalEnv)
+        assign(x = "timeStamp", value = userProcessed()$timeStamp, envir = .GlobalEnv)
+        assign(x = "species", value = userProcessed()$species, envir = .GlobalEnv)
+        updateCheckboxGroupInput(session, "tissues", choices = categories, selected = categories)
+        updateCheckboxGroupInput(session, "pls_tissues", choices = categories, selected = categories)
+        updateCheckboxGroupInput(session, "de", choices = de_choices, selected = de_choices[1])
+
+        incProgress(0.3, message ="Loading genelists")
+        updateCheckboxGroupInput(session, "genelist", label = NULL, choices = names(gene_lists[[species]]), selected = NULL, inline = FALSE)
+        incProgress(0.2, message = "Loading gene names")
+        updateSelectInput(session, "gene", choices = make.names(uploaded_features))
+        removeModal()
+    })
 })
 
 # Download DEG
@@ -434,28 +404,6 @@ rvDEG <- reactiveValues(download_flag = 0)
           write_xlsx(sig_genes_lfc, path=file)
           rvDEG$download_flag <- rvDEG$download_flag + 1
       })
-
-# QC output
-#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
-
-output$QC = renderUI({
-  validate(
-    need(input$user_data!="none","No dataset selected")
-  )
-
-  id <- global$DatasetTable$userID[which(global$DatasetTable$desc == input$user_data)]
-
-  fluidRow(
-      inlineCSS(list(
-          "#norm" = c("max-width:100%","width=100%"))),
-      h4("Expression normalization (array intensity, before and after)"), 
-      tags$div(class="norm",
-          tags$img(src=paste("array_normalization_", id, ".png", sep=''))
-          ),
-      h4("RNA degradation plot (probe position along transcript vs intensity)"),
-      tags$img(src=paste("probe_degradation_", id, ".png", sep='')))
-})
-
       
 # Load genes tab
 #_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_
@@ -469,7 +417,7 @@ output$QC = renderUI({
 
     if (!is.null(input$genelist)) {
       for (gene in input$genelist) {
-        genes = c(genes, gene_lists[[species]][[gene]])
+        genes = c(genes, gene_lists[[paste(species)]][[gene]])
       }
     }
 
@@ -495,7 +443,8 @@ output$QC = renderUI({
   output$genes = DT::renderDataTable({
       validate(
         need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
-        need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'.")
+        need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
+        need(!is.null(summary_gene_data()), "Gene lists don't match features in your data. Check the input box below, you may have other identifiers that are not gene symbols.")
       )
     
      summary_gene_data() %>% datatable() %>% 
@@ -515,7 +464,10 @@ output$QC = renderUI({
     genes_to_plot = summary_gene_data()$Symbol[rows]
     
     gene_data = get_gene_data(eset, genes_to_plot)
-    by_gene_violplot(gene_data,tissues=groups)
+    density <- gene_data %>% group_by(tissue,Symbol) %>% summarise(count=n())
+    # cat(file=stderr(),"the density is ", as.matrix(density),"\n")
+    if (any(density$count > 3)) {by_gene_violplot(gene_data,tissues=categories)}
+        else {by_gene_boxplot(gene_data,tissues=categories)}
     
     
   })
@@ -536,7 +488,7 @@ output$QC = renderUI({
     
     if(input$de_state) {
       selected_de = input$de
-      de_lists = lapply(selected_de, function(x) { as.character(get_de_genes(genes, x, sig_genes_lfc)$Symbol) })
+      de_lists = lapply(selected_de, function(x) {as.character(get_de_genes(genes, x, sig_genes_lfc)$Symbol) })
       genes = Reduce(union, de_lists)
     } 
    
@@ -550,22 +502,19 @@ output$QC = renderUI({
   output$expressionPlot = renderPlot({
       validate(
           need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
-          
           need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
-          
           need(input$tissues, "No tissues selected. Please choose at least one tissue to plot receptor heatmap."),
-          
-          need(length(genesToPlot())>10, if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot as a heatmap (minimum = 10). Try including more receptor types in 'Load Data'.")})
+          need(length(genesToPlot())>10, if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these comparisons (",paste(input$de, collapse = ", "), "); try choosing additional comparisons, or unselecting the 'Show differentially expressed only' option in the side menu.",sep="")}else{paste("No genes to plot as a heatmap (minimum = 10). Try including more receptor types in 'Load Data'.")})
     )
        
     selected_tissues = input$tissues
     sub_eset = eset[, eset$tissue %in% selected_tissues]
-    genes = gene2probe(genesToPlot(), mapped_probes)
+    genes = genesToPlot()
     
-    cat(file=stderr(), "Preparing heatmap:\n Tissues:", paste(input$tissues, collapse = ", "), "\n gene list: ",paste(genesToPlot(),collapse=", "),"\n genes: ", paste(genes,collapse=", "),"\n")
+    # cat(file=stderr(), "Preparing heatmap:\n Tissues:", paste(input$tissues, collapse = ", "), "\n gene list: ",paste(genesToPlot(),collapse=", "),"\n genes: ", paste(genes,collapse=", "),"\n")
     
     gene_heatmap(sub_eset, genes, scale = "row",
-                  probe_level = input$hm_probes,
+                  probe_level = FALSE,
                   gsm_show = input$hm_gsm,
                   show_rownames = input$hm_rownames,
                   cluster_rows = input$hm_row_cluster,
@@ -584,7 +533,7 @@ output$QC = renderUI({
         need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
         need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
     need(input$tissues, "No tissues selected. Please choose at least one tissue to plot receptor heatmap."),
-    need(length(genesToPlot())>1, if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")}) 
+    need(length(genesToPlot())>0, if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these comparisons (",paste(input$de, collapse = ", "), "); try choosing additional comparisons, or unselecting the 'Show differentially expressed only' option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")}) 
     )
     
     gene_data = get_gene_data(eset, genesToPlot())
@@ -600,7 +549,7 @@ output$QC = renderUI({
           need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
           need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
       need(input$tissues, "No tissues selected. Please choose at least one tissue to plot receptor heatmap."),
-      need(length(genesToPlot())>1, if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")}) 
+      need(length(genesToPlot())>0, if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these comparisons (",paste(input$de, collapse = ", "), "); try choosing additional comparisons, or unselecting the 'Show differentially expressed only' option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")}) 
       )    
     gene_data = get_gene_data(eset, genesToPlot())
     by_gene_boxplot(gene_data, tissues = input$tissues)
@@ -617,7 +566,13 @@ output$QC = renderUI({
     
     
     sub_eset = eset[, eset$tissue %in% selected_tissues]
-    genes = gene2probe(geneList(), mapped_probes)
+    genes = genesToPlot()
+    if(is.null(uploaded_features)){genes = gene2probe(genesToPlot(), mapped_probes)}
+    
+    if(length(genes) < 10) {
+        # cat(file=stderr(),"genes are: ",genes,"\n")
+      return(NULL)
+    }
     
     # probe = input$pls_probe
     
@@ -628,21 +583,23 @@ output$QC = renderUI({
 # PCA plot ----------------------------------------------------------------------------
   output$indPlot = renderPlot({
     validate(
-        need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
-        need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
-       need(length(input$pls_tissues) >= 2, "Please select at least two tissues for a PLS-DA plot.")
+       need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
+       need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
+       need(length(input$pls_tissues) >= 2, "Please select at least two tissues for a PLS-DA plot."),
+       need(!is.null(plsdaData()$result), if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")})
     )
     
     plotIndiv(plsdaData()$result, ind.names = FALSE, group = factor(plsdaData()$tissue_grps), pch = 16, 
-              col.per.group = brewer.pal(3, "Set1")[1:length(input$pls_tissues)], legend = TRUE, cex = 2, ellipse=TRUE, title="Plot of individual arrays",style="graphics")
+              col.per.group = brewer.pal(3, "Set1")[1:length(input$pls_tissues)], legend = TRUE, cex = 2, ellipse=TRUE, title="Plot of individual samples",style="graphics")
   })
 
 # Correlation Circle plot ----------------------------------------------------------------------------  
   output$varPlot = renderPlot({
       validate(
-          need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
-          need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
-         need(length(input$pls_tissues) >= 2, "Please select at least two tissues for a Correlation circle plot.")
+         need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
+         need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
+         need(length(input$pls_tissues) >= 2, "Please select at least two tissues for a Correlation circle plot."),
+         need(!is.null(plsdaData()$result), if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")})
       )
       comp = as.integer(input$pls_ncomp)
     plotVar(plsdaData()$result, var.names = list(plsdaData()$varNames), comp.select=comp, cex = 1, overlap=FALSE, col="grey",title="Correlation circle between genes and discriminant components", style="graphics")
@@ -657,9 +614,10 @@ output$QC = renderUI({
 # Loadings plot ----------------------------------------------------------------------------
   output$contribPlot = renderPlot({
       validate(
-          need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
-          need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
-         need(length(input$pls_tissues) >= 2, "Please select at least two tissues for a Loadings plot.")
+         need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),
+         need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),
+         need(length(input$pls_tissues) >= 2, "Please select at least two tissues for a Loadings plot."),
+         need(!is.null(plsdaData()$result), if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")})
       )
 
     

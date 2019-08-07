@@ -1,0 +1,1110 @@
+library(roxygen2)
+roxygenise("Desktop/receptoR")
+roxygenise("Desktop/receptoR/R")
+roxygenise("Desktop/receptoR/")
+??ExpressionSet
+??ExpressionSet()
+library(affy)
+?ExpressionSet()
+roxygenise("Desktop/receptoR/")
+q()
+library(roxygen2)
+setwd("Desktop/receptoR/")
+roxygenise
+roxygenise()
+library(receptoR)
+launchApp()
+launchApp()
+roxygenise()
+library(receptoR)
+launchApp()
+roxygenise()
+launchApp()
+roxygenise()
+roxygenise()
+roxygenise()
+roxygenise()
+roxygenise()
+roxygenise()
+roxygenise()
+roxygenise()
+roxygenise()
+scSeq<-readRDS("~/Downloads/GSE124395_Normalhumanliverdata.RData")
+head(scSeq)
+dim(scSeq)
+sample(1:12622,18)
+scSeq.tiny <- scSeq[,sample(1:12622,18)]
+dim(scSeq.tiny)
+dim(scSeq.tiny[!(apply(scSeq.tiny,1,function(y) all(y==0))),])
+csv<-scSeq.tiny[!(apply(scSeq.tiny,1,function(y) all(y==0))),]
+write.csv(csv,"~/Desktop/scSeq-liver.csv")
+pTable<-read.csv("~/Downloads/GSE124395_clusterpartition.txt",sep=" ")
+head(pTable)
+head(rownames(pTable))
+head(pTable$sct.cpart)
+head(pTable$sct.cpart)->ff
+class(ff)
+ff
+pTable$cluster <- factor(pTable$sct.cpart)
+head(pTable$sct.cpart)
+head(pTable)
+sample(pTable,18)
+sample(rownames(pTable),18)
+three<-pTable %>% filter(cluster %in% c(11,17,14,30,4,7,24,39,25,31,23,6))
+dim(three)
+dim(pTable)
+hep <- sample(rownames(pTable %>% filter(cluster %in% c(11,17,14,30))),10)
+hep
+hep <- pTable %>% filter(cluster %in% c(11,17,14,30))
+sample(rownames(hep),10)
+pTable <- tbl_df(pTable)
+ls
+pTable
+pTable<-read.csv("~/Downloads/GSE124395_clusterpartition.txt",sep=" ")
+?tbl_df
+pTable <- as_tibble(pTable,rownames="cellID")
+pTable
+pTable$cluster<-factor(pTable$sct.cpart)
+pTable
+hep <- pTable %>% filter(cluster %in% c(11,17,14,30))
+sample(hep$cellID,10)
+hep10<-sample(hep$cellID,10)
+cho <- pTable %>% filter(cluster %in% c(4,7,24,39))
+cho10<-sample(cho$cellID,10)
+kup <- pTable %>% filter(cluster %in% c(25,31,23,6))
+kup10<-sample(kup$cellID,10)
+subSC<-c(hep,cho,kup)
+subSC
+hep
+subSC<-full_join(hep10,cho10)
+subSC<-c(hep10,cho10,kup10)
+subSC
+head(scSeq)
+scSeq10<-scSeq[,subSC]
+dim(scSeq)
+sim(scSeq10)
+dim(scSeq10)
+write.csv(scSeq10,"liver-scRNA-seqx10.csv")
+scSeq10<-scSeq10[!(apple(scSeq10,1,function(y) all(y==0)))]
+scSeq10<-scSeq10[!(apply(scSeq10,1,function(y) all(y==0))),]
+dim(scSeq10)
+write.csv(scSeq10,"~/Desktop/liver-scRNA-seqx10.csv")
+hep
+hep10
+cho
+cho10
+hep100<-sample(hep$cellID,100)
+cho100<-sample(cho$cellID,10)
+cho100<-sample(cho$cellID,100)
+kup100<-sample(kup$cellID,100)
+subSC<-c(hep100,cho100,kup100)
+scSeq100<-scSeq[,subSC]
+scSeq100<-scSeq100[!(apply(scSeq100,1,function(y) all(y==0))),]
+write.csv(scSeq100,"~/Desktop/sampled-liver-scRNA-seqx100.csv")
+summary(scSeq100)
+scSeq100<-scSeq100[!(apply(scSeq100,1,function(y) all(y<0.1))),]
+dim(scSeq1000)
+dim(scSeq100)
+write.csv(scSeq100,"~/Desktop/sampled-liver-scRNA-seqx100.csv")
+scSeq100<-scSeq100[!(apply(scSeq100,1,function(y) all(y<1))),]
+dim(scSeq100)
+dscSeq100<-scSeq100[!(apply(scSeq100,1,function(y) all(y<5))),]
+dim(dscSeq100)
+dscSeq100<-scSeq100[!(apply(scSeq100,1,function(y) all(y<2))),]
+dim(dscSeq100)
+dscSeq100<-scSeq100[!(apply(scSeq100,1,function(y) all(y<3))),]
+dim(dscSeq100)
+write.csv(dscSeq100,"~/Desktop/sampled-liver-scRNA-seqx100.csv")
+dscSeq100<-scSeq100[!(apply(scSeq100,1,function(y) all(y<5))),]
+write.csv(dscSeq100,"~/Desktop/sampled-liver-scRNA-seqx100.csv")
+options()
+options(shiny.maxRequestSize=30*1024^2)
+write.csv(scSeq100,"~/Desktop/sampled-liver-scRNA-seqx100.csv")
+head(scSeq100)
+head(log(scSeq100,base=10))
+head(log(scSeq100+1,base=10))
+?launchApp()
+min(scSeq100)
+max(scSeq100)
+gse97534<-read.csv("~/Downloads/GSE97534_expression_exons_RPKM_withAnnotation.csv")
+head(gse97534)
+gse121858<-read.csv("~/Downloads/GSE121858_MNU-YAP-WT_Counts.txt",sep=" ")
+head(gse121858)
+gse121858<-read.csv("~/Downloads/GSE121858_MNU-YAP-WT_Counts.txt",sep="\t")
+head(gse121858)
+load("/Users/derektoms/Downloads/liver atlas 300 cells_processed_data.rda")
+gse114945<-read.csv("~/Downloads/GSE114945_Sox9.rnaseq.data.cnts.Pgenes.qnorm.floor50.q10.txt",sep="\t")
+head(gse114945)
+name(gse114945$sym)
+names(gse114945$sym)
+colname(gse114945$sym)
+colnames(gse114945$sym)
+colnames(gse114945)[2]<-"GeneSymbol"
+head(gse114945)
+test<-left_join(114945,97534,by="GeneSymbol")
+class(114945)
+head(114945)
+test<-left_join(gse114945,gse97534,by="GeneSymbol")
+gse114945<-read.csv("~/Downloads/GSE114945_Sox9.rnaseq.data.cnts.Pgenes.qnorm.floor50.q10.txt",sep="\t",stringsAsFactors=FALSE)
+gse97534<-read.csv("~/Downloads/GSE97534_expression_exons_RPKM_withAnnotation.csv",stringsAsFactors=FALSE)
+colnames(gse114945)[2]<-"GeneSymbol"
+test<-left_join(gse114945,gse97534,by="GeneSymbol")
+head(test)
+gse131954<-read.csv("~/Downloads/GSE131954_HTSeq_RR9_Ground_Ctrl_vs_Flight_AllCounts.txt",stringsAsFactors=FALSE)
+head(gse121858)
+library(bioMaRt)
+bioclibrary(BiocManager)
+library(BiocManager)
+BiocManager::install(bioMaRt)
+BiocManager::install(biomaRt)
+BiocManager::install("biomaRt")
+library(biomaRt)
+useDataset("mmusculus_gene_ensembl",useMart("ensembl"))-> geneNames
+?getBM
+geneSym <- getBM(filters="ensembl_gene_id",attributes = c("ensembl_gene_id","entrezgene","description",values=gse121858$Geneid,mart=geneNames))
+useMart("mmusculus_gene_ensembl",useMart("ensembl"))-> geneNames
+?useMart
+listMarts
+listMarts()
+useMart(ENSEMBL_MART_MOUSE))-> geneNames
+useMart(ENSEMBL_MART_MOUSE)-> geneNames
+useMart("ENSEMBL_MART_MOUSE")-> geneNames
+geneSym <- getBM(filters="ensembl_gene_id",attributes = c("ensembl_gene_id","entrezgene","description",values=gse121858$Geneid,mart=geneNames))
+class(geneNames)
+mart = useMart(host="useast.ensembl.org", biomart="ENSEMBL_MART_ENSEMBL", dataset="mmusculus_gene_ensembl", verbose=F)
+geneSym <- getBM(filters="ensembl_gene_id",attributes = c("ensembl_gene_id","entrezgene","description",values=gse121858$Geneid,mart=mart))
+geneSym <- getBM(filters="ensembl_gene_id",attributes = c("ensembl_gene_id","entrezgene","description"),values=gse121858$Geneid,mart=geneNames)
+geneSym <- getBM(filters="ensembl_gene_id",attributes = c("ensembl_gene_id","entrezgene","description"),values=gse121858$Geneid,mart=mart)
+geneSym <- getBM(filters="ensembl_gene_id",attributes = c("ensembl_gene_id","description"),values=gse121858$Geneid,mart=mart)
+head(geneSym)
+listAttributes()
+listAttributes(mart)
+head(listAttributes(mart))
+?getBM
+?getBM
+head(listAttributes(geneNames))
+geneSym <- getBM(filters=c("ensembl_gene_id","gene_symbol"),attributes = c("ensembl_gene_id","description"),values=gse121858$Geneid,mart=mart)
+geneSym <- getBM(filters="ensembl_gene_id",attributes = c("ensembl_gene_id","hgnc_symbol","description"),values=gse121858$Geneid,mart=mart)
+?launchApp()
+head(geneSym)
+geneSym <- getBM(filters="ensembl_gene_id",attributes = c("ensembl_gene_id", "mgi_symbol","description"),values=gse121858$Geneid,mart=mart)
+head(geneSym)
+head(test)
+head(gse131954)
+gse131954<-read.csv("~/Downloads/GSE131954_HTSeq_RR9_Ground_Ctrl_vs_Flight_AllCounts.txt",sep="\t",stringsAsFactors=FALSE)
+head(gse131954)
+head(gse114945)
+min(gse114945$P5.wt1)
+max(gse114945$P5.wt1)
+min(gse114945)
+max(gse131954$CFG2288)
+min(gse131954$CFG2288)
+mart = useMart(biomart="ENSEMBL_MART_ENSEMBL", dataset="mmusculus_gene_ensembl", verbose=F)
+head(geneSym)
+head(gse121858)
+colnames(gse121858)[1] <- "ensembl_gene_id"
+left_join(gse121858,geneSym,"ensembl_gene_id")
+gse121858<-read.csv("~/Downloads/GSE121858_MNU-YAP-WT_Counts.txt",sep="\t",stringsAsFactors=FALSE)
+gse121858<-left_join(gse121858,geneSym,"ensembl_gene_id")
+colnames(gse121858)[1] <- "ensembl_gene_id"
+gse121858<-left_join(gse121858,geneSym,"ensembl_gene_id")
+head(gse121858)
+head(gse131954)
+gse131954 <- gse131954[,2:10]
+colnames(gse131954)[1]<-"GeneSymbol"
+head(gse131954)
+head(gse114945)
+gse114945 <- gse114945[,2,9,10,11]
+gse114945<-read.csv("~/Downloads/GSE114945_Sox9.rnaseq.data.cnts.Pgenes.qnorm.floor50.q10.txt",sep="\t",stringsAsFactors=FALSE) ## timecourse RPE
+gse114945 <- gse114945[,c(2,9,10,11)]
+head(gse114945)
+gse114945[,-1] <- gse114945[,-1]-50
+head(gse114945)
+head(gse121858)
+gse121858 <- gse121858[,c(11,2,3,4)]
+head(gse121858)
+colnames(gse121858)[1]<-"GeneSymbol"
+big <- left_join(gse131954,gse114945,by="GeneSymbol")
+head(gse131954)
+head(gse114945)
+colnames(gse114945)[1]<-"GeneSymbol"
+big <- left_join(gse131954,gse114945,by="GeneSymbol")
+big <- left_join(big,gse121858,by="GeneSymbol")
+head(big)
+class(big)
+big[is.na(big)]<-0
+head(big)
+big2 <- big[!(apply(big,1,function(y) all(y<5))),]
+dim(big)
+dim(big2)
+write.csv(big2, "~/Desktop/retinaSeq.csv")
+launchApp()
+write.csv(big2, "~/Desktop/retinaSeq.csv",rownames="")
+?write.csv
+write.csv(big2, "~/Desktop/retinaSeq.csv",row.names=FALSE)
+launchApp()
+ui <- fluidPage(#
+tags$head(tags$script(HTML(jscode))),#
+tags$head(tags$script(HTML(jscode2))),#
+tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "www/receptor.CSS")),#
+tags$head(tags$link(rel = "stylesheet", href = "https://use.fontawesome.com/releases/v5.6.3/css/all.css",  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")),#
+shinyjs::useShinyjs(),#
+navbarPage("receptoR",#
+    id = "receptorMain",#
+    theme = shinytheme("spacelab"),#
+#
+# Start page  ------------------------------------------------------------------------------#
+#
+    tabPanel("Start here",#
+       value ="startPanel",#
+       h3("Welcome to receptoR!"),#
+       hr(),#
+       sidebarLayout(#
+           sidebarPanel(#
+               # h4("An automated hypothesis generation software to identify cellular signaling pathways from transcriptomics data"),#
+               p("This software allows you to browse and analyze transcriptomics data. This is based on the idea that each cell type expresses a particular suite of cellular receptors that drive its behaviour."),#
+               tags$ol(tags$li("A cell transcribes mRNA that will be translated into functional receptor proteins."),tags$li("Isolated RNA from this cell is converted to labeled cDNA, which can be analysed by microarray or next-generation sequencing to measure expression of specific transcripts."),tags$li("Each array represents a snapshot of a specific transcriptome. Thousands of these have been digitized and made publicly available."),tags$li("By mining this data, we can predict which receptors are expressed by our cells or tissues of interest to direct bioengineering strategies.")),#
+               hr(),#
+               #div#
+               p("To begin using receptor, ",#
+               actionLink("linkSearch","upload expression data")),#
+               hr(),#
+               p("code created by Derek Toms, Qing Yun Tong and Matthew Workentine"),#
+               p("Copyright (C) 2019, code licensed under GPLv3")#
+               #/div#
+               ),#
+           mainPanel(#
+               img(src="www/overview.png",width="100%")#
+               )#
+        )),#
+#
+#  Upload data  ------------------------------------------------------------------------------#
+#
+    tabPanel("Upload Transcriptome Data",#
+       value = "searchPanel",#
+       includeCSS("www/receptor.CSS"),#
+       h3("Upload and categorize expression data"), ## change#
+       hr(),#
+       sidebarLayout(#
+       sidebarPanel(#
+           # style = "position:fixed;width:30%",#
+           conditionalPanel(condition="input.searchpanel==1",#
+           h4("Upload Expression Data"),#
+           br(),#
+           actionButton("uploadButton", "Upload data to analyze")),#
+           conditionalPanel(condition="input.searchpanel==2",#
+           h4("Define the categories to assign each sample for comparison."),#
+           p("Each sample of interest should be assigned to a category. In this way, experimental comparisons can be performed to determine differential expression between categories. A minimum of two and a maximum of three categories should be defined. If you are only interested in a single sample type it is recommended that this is compared to a 'background' sample to identify enriched receptor genes."),#
+#
+           tags$div(class="inputWithIcon", textInput("cat1", label=NULL, placeholder="Category 1 (e.g., pancreatic endocrine cells)"), tags$span(style="color:#E41A1C",icon("circle",class="fa-2x"))),#
+#
+           tags$div(class="inputWithIcon",textInput("cat2", label=NULL, placeholder="Category 2 (e.g., photoreceptors)"), tags$span(style="color:#377EB8",icon("circle",class="fa-2x"))),#
+           tags$div(class="inputWithIcon",textInput("cat3", label=NULL, placeholder="Category 3 (optional)"),#
+           tags$span(style="color:#4DAF4A",icon("circle",class="fa-2x"))),#
+           hr(),#
+           h4("Highlight samples, then click to Assign them to the specificed category."),#
+           p("Using the table at right and the drop down menu below, click on samples and \'Assign\' them to different categories. Samples can be filtered using the search bar."),#
+           fluidRow(column(8,uiOutput("categorySelect")),#
+           column(4,actionButton("assignButton", "Assign")))#
+           ),#
+           conditionalPanel(condition="input.searchpanel==3",#
+               h4("Thank you for using receptoR!"), # this should be slightly more informative, along the lines of Process data#
+               p(" Please enter your name and any comments/bugs/questions/requests in the box below, then click the \'Download and Process\' button to retrieve the raw files from the NCBI server and process them based on their assigned categories."), # move this off of this page; separate "Help/Comments" button#
+               textAreaInput("comments","Comments",width="100%",height="100px",resize="vertical"), # ditto#
+               textInput("downloadId","Download ID"), # needs to be mandatory (or filled by default)#
+               actionButton("downloadRDA","Process")),#
+           hr(),#
+               # Help banner on the bottom -------------------------#
+           # h4("Help me!"),#
+           p("Click ",actionLink("linkReset","here "),"to start again.")#
+       ),#
+       mainPanel(#
+        tabsetPanel(id = "searchpanel",#
+        tabPanel("Upload", value=1,#
+            h4("Transcriptome data"), # return uploaded table#
+            p("Begin by uploading transcriptome data as a read count table. We recommend reads from at least eight samples to improve statistical power. In the next step, these samples will be assigned to one of three categories to determine differential expression between sample types.")#
+        ),#
+        # Assign samples to categories ------------------------------------------------------#
+        tabPanel("Assign", value=2,#
+            h4("Assign individual samples (columns) to categories of your choosing"),#
+            DT::dataTableOutput("gsm_table")#
+        ),#
+        # This will be where the CEL files are downloaded (confirmation, etc) ------------#
+        tabPanel("Process", value=3,#
+        h4("Please confirm samples are properly categorized before proceeding"),#
+        p("Expression samples annotated:"), DT::dataTableOutput("finishedtable")        #
+        ))#
+        )#
+    )),#
+    # Load Gene Expression Data tab -------------------------------------#
+    tabPanel("Load Expression Datasets",#
+        value="expressionPanel",#
+        h3("Pick from previously analyzed experiments to perform analyses"),#
+        hr(),#
+        sidebarLayout(#
+        sidebarPanel(#
+            h4("Load Experiment"),#
+            uiOutput("loadUserExperiments"),#
+            hr(),#
+            checkboxGroupInput("genelist", "Select a receptor type to analyze", #
+                  choices = NULL),#
+            br(),#
+            selectInput("gene", "Select additional non-receptor coding gene(s) to include in the analysis.", choices = NULL, multiple = TRUE),#
+            helpText("Search by gene symbol; availability of a given gene is based on microarray probe annotations."),#
+            downloadButton("reportDEG","Download differential gene expression analysis"),#
+            helpText("This Microsoft Excel file (.XSLX) contains all differentially expressed genes among these tissues. It can be further used for downstream analyses including functional enrichment analysis.")#
+        ),#
+        mainPanel(#
+            fluidRow(#
+            column(6, h4("Average Expression"), DT::dataTableOutput("genes")),#
+            column(6, h4("Gene Violin Plot"), plotOutput("singleGenePlot"))#
+        ))#
+        )#
+        )#
+    ),#
+    # Magnitude expression tab ------------------------------------------------------------------------------#
+    tabPanel("Gene-level Expression",#
+        h3("Compare genes based on absolute expression and differential expression between experimental groups"),#
+        hr(),#
+        sidebarLayout(#
+        sidebarPanel(#
+            h4("Gene expression"),#
+            checkboxGroupInput("tissues", label = "Select tissues to include",#
+            choices = NULL, selected = NULL),#
+            br(),#
+            checkboxInput("de_state", label = "Show differential expressed only", value = TRUE),#
+            checkboxGroupInput("de", label = "Choose comparison(s) to show", choices = NULL, selected = NULL),#
+            br(),#
+            conditionalPanel(condition="input.absexpanel==1",#
+                h5("Heatmap parameters"),#
+                checkboxInput("hm_gsm", "Show GSM (column names)", value = TRUE),#
+                checkboxInput("hm_rownames", "Show gene symbols (row names)", value = TRUE),#
+                checkboxInput("hm_col_cluster", "Cluster columns", value = TRUE),#
+                checkboxInput("hm_row_cluster", "Cluster rows", value = TRUE),#
+                numericInput("hm_width", "Plot width (px)", value = 900, min = 100, max = 2400, step = 10),#
+                numericInput("hm_height", "Plot height (px)", value = 1200, min = 100, max = 2400, step = 10))#
+        ),#
+        mainPanel(#
+            tabsetPanel(type = "tabs",#
+            tabPanel("Heatmap", value=1, h4("Cluster analysis and a heatmap representation of gene expression."), p("Genes with similar expression patterns will cluster as rows, while individual microarrays cluster as columns."), uiOutput("heatmap_ui")),#
+            tabPanel("Summary boxplots", h4("Boxplots of expression data by tissue."), plotOutput("overallPlot", height = 600)),#
+            tabPanel("By-gene boxplots", h4("Boxplots of expression data by gene."), plotOutput("byGenePlot", height = 600)),#
+            id = "absexpanel")#
+        )#
+        )#
+    ),#
+#
+    # Mixomics tab ---------------------------------------------#
+    tabPanel("Sample-level Expression",#
+        h3("Compare trends in samples based on experimental groups"),#
+        hr(),#
+        sidebarLayout(#
+        sidebarPanel(#
+            h4("Sample expression"),#
+            checkboxGroupInput("pls_tissues", label = "Select tissues to inclued",#
+            choices = NULL, selected = NULL),#
+            # checkboxInput("pls_probe", "Perform PLS-DA at probe level", value = FALSE),#
+            br(),#
+            h4("Gene contribution plot"),#
+            uiOutput("numGenesUI"),#
+            radioButtons("pls_ncomp", "Select component for gene contribution plot", choices = c(1,2)),#
+            br()#
+            # downloadButton("pls_download", "Download gene contribution data")#
+        ),#
+        mainPanel(#
+            tabsetPanel(type = "tabs",#
+            tabPanel("Discriminant Analysis", h4("Sparse Partial Least Squares Discriminant Analysis (sPLS-DA)  selects genes that are informative about a specific group. "), plotOutput("indPlot", height = 800)),#
+            tabPanel("Component loadings plot", h4("Gene contribution to each principle component."), p("The longer the bar (in either direction) the more that gene contributes to that component."), plotOutput("contribPlot", height = 800)),#
+            tabPanel("Circle variance", h4("Circle variance projections onto tissue."), p("Strongly correlated genes are projected in the same direction from the origin; the greater the distance the stronger the association."), plotOutput("varPlot", height = 800))#
+        ),#
+        position = c("right","left"),#
+        fluid = TRUE#
+        )#
+        )#
+    )#
+)#
+)
+setwd("inst/shiny/")
+ui <- fluidPage(#
+tags$head(tags$script(HTML(jscode))),#
+tags$head(tags$script(HTML(jscode2))),#
+tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "www/receptor.CSS")),#
+tags$head(tags$link(rel = "stylesheet", href = "https://use.fontawesome.com/releases/v5.6.3/css/all.css",  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")),#
+shinyjs::useShinyjs(),#
+navbarPage("receptoR",#
+    id = "receptorMain",#
+    theme = shinytheme("spacelab"),#
+#
+# Start page  ------------------------------------------------------------------------------#
+#
+    tabPanel("Start here",#
+       value ="startPanel",#
+       h3("Welcome to receptoR!"),#
+       hr(),#
+       sidebarLayout(#
+           sidebarPanel(#
+               # h4("An automated hypothesis generation software to identify cellular signaling pathways from transcriptomics data"),#
+               p("This software allows you to browse and analyze transcriptomics data. This is based on the idea that each cell type expresses a particular suite of cellular receptors that drive its behaviour."),#
+               tags$ol(tags$li("A cell transcribes mRNA that will be translated into functional receptor proteins."),tags$li("Isolated RNA from this cell is converted to labeled cDNA, which can be analysed by microarray or next-generation sequencing to measure expression of specific transcripts."),tags$li("Each array represents a snapshot of a specific transcriptome. Thousands of these have been digitized and made publicly available."),tags$li("By mining this data, we can predict which receptors are expressed by our cells or tissues of interest to direct bioengineering strategies.")),#
+               hr(),#
+               #div#
+               p("To begin using receptor, ",#
+               actionLink("linkSearch","upload expression data")),#
+               hr(),#
+               p("code created by Derek Toms, Qing Yun Tong and Matthew Workentine"),#
+               p("Copyright (C) 2019, code licensed under GPLv3")#
+               #/div#
+               ),#
+           mainPanel(#
+               img(src="www/overview.png",width="100%")#
+               )#
+        )),#
+#
+#  Upload data  ------------------------------------------------------------------------------#
+#
+    tabPanel("Upload Transcriptome Data",#
+       value = "searchPanel",#
+       includeCSS("www/receptor.CSS"),#
+       h3("Upload and categorize expression data"), ## change#
+       hr(),#
+       sidebarLayout(#
+       sidebarPanel(#
+           # style = "position:fixed;width:30%",#
+           conditionalPanel(condition="input.searchpanel==1",#
+           h4("Upload Expression Data"),#
+           br(),#
+           actionButton("uploadButton", "Upload data to analyze")),#
+           conditionalPanel(condition="input.searchpanel==2",#
+           h4("Define the categories to assign each sample for comparison."),#
+           p("Each sample of interest should be assigned to a category. In this way, experimental comparisons can be performed to determine differential expression between categories. A minimum of two and a maximum of three categories should be defined. If you are only interested in a single sample type it is recommended that this is compared to a 'background' sample to identify enriched receptor genes."),#
+#
+           tags$div(class="inputWithIcon", textInput("cat1", label=NULL, placeholder="Category 1 (e.g., pancreatic endocrine cells)"), tags$span(style="color:#E41A1C",icon("circle",class="fa-2x"))),#
+#
+           tags$div(class="inputWithIcon",textInput("cat2", label=NULL, placeholder="Category 2 (e.g., photoreceptors)"), tags$span(style="color:#377EB8",icon("circle",class="fa-2x"))),#
+           tags$div(class="inputWithIcon",textInput("cat3", label=NULL, placeholder="Category 3 (optional)"),#
+           tags$span(style="color:#4DAF4A",icon("circle",class="fa-2x"))),#
+           hr(),#
+           h4("Highlight samples, then click to Assign them to the specificed category."),#
+           p("Using the table at right and the drop down menu below, click on samples and \'Assign\' them to different categories. Samples can be filtered using the search bar."),#
+           fluidRow(column(8,uiOutput("categorySelect")),#
+           column(4,actionButton("assignButton", "Assign")))#
+           ),#
+           conditionalPanel(condition="input.searchpanel==3",#
+               h4("Thank you for using receptoR!"), # this should be slightly more informative, along the lines of Process data#
+               p(" Please enter your name and any comments/bugs/questions/requests in the box below, then click the \'Download and Process\' button to retrieve the raw files from the NCBI server and process them based on their assigned categories."), # move this off of this page; separate "Help/Comments" button#
+               textAreaInput("comments","Comments",width="100%",height="100px",resize="vertical"), # ditto#
+               textInput("downloadId","Download ID"), # needs to be mandatory (or filled by default)#
+               actionButton("downloadRDA","Process")),#
+           hr(),#
+               # Help banner on the bottom -------------------------#
+           # h4("Help me!"),#
+           p("Click ",actionLink("linkReset","here "),"to start again.")#
+       ),#
+       mainPanel(#
+        tabsetPanel(id = "searchpanel",#
+        tabPanel("Upload", value=1,#
+            h4("Transcriptome data"), # return uploaded table#
+            p("Begin by uploading transcriptome data as a read count table. We recommend reads from at least eight samples to improve statistical power. In the next step, these samples will be assigned to one of three categories to determine differential expression between sample types.")#
+        ),#
+        # Assign samples to categories ------------------------------------------------------#
+        tabPanel("Assign", value=2,#
+            h4("Assign individual samples (columns) to categories of your choosing"),#
+            DT::dataTableOutput("gsm_table")#
+        ),#
+        # This will be where the CEL files are downloaded (confirmation, etc) ------------#
+        tabPanel("Process", value=3,#
+        h4("Please confirm samples are properly categorized before proceeding"),#
+        p("Expression samples annotated:"), DT::dataTableOutput("finishedtable")        #
+        ))#
+        )#
+    )),#
+    # Load Gene Expression Data tab -------------------------------------#
+    tabPanel("Load Expression Datasets",#
+        value="expressionPanel",#
+        h3("Pick from previously analyzed experiments to perform analyses"),#
+        hr(),#
+        sidebarLayout(#
+        sidebarPanel(#
+            h4("Load Experiment"),#
+            uiOutput("loadUserExperiments"),#
+            hr(),#
+            checkboxGroupInput("genelist", "Select a receptor type to analyze", #
+                  choices = NULL),#
+            br(),#
+            selectInput("gene", "Select additional non-receptor coding gene(s) to include in the analysis.", choices = NULL, multiple = TRUE),#
+            helpText("Search by gene symbol; availability of a given gene is based on microarray probe annotations."),#
+            downloadButton("reportDEG","Download differential gene expression analysis"),#
+            helpText("This Microsoft Excel file (.XSLX) contains all differentially expressed genes among these tissues. It can be further used for downstream analyses including functional enrichment analysis.")#
+        ),#
+        mainPanel(#
+           fluidRow(                #
+               column(6, h4("Average Gene-by-gene Expression"), DT::dataTableOutput("genes")),            #
+               column(6, h4("Gene Violin Plot"), plotOutput("singleGenePlot")))#
+        )#
+        )#
+    ),#
+    # Magnitude expression tab ------------------------------------------------------------------------------#
+    tabPanel("Gene-level Expression",#
+        h3("Compare genes based on absolute expression and differential expression between experimental groups"),#
+        hr(),#
+        sidebarLayout(#
+        sidebarPanel(#
+            h4("Gene expression"),#
+            checkboxGroupInput("tissues", label = "Select tissues to include",#
+            choices = NULL, selected = NULL),#
+            br(),#
+            checkboxInput("de_state", label = "Show differential expressed only", value = TRUE),#
+            checkboxGroupInput("de", label = "Choose comparison(s) to show", choices = NULL, selected = NULL),#
+            br(),#
+            conditionalPanel(condition="input.absexpanel==1",#
+                h5("Heatmap parameters"),#
+                checkboxInput("hm_probes", "Show probe-level", value = FALSE),#
+                checkboxInput("hm_gsm", "Show GSM (column names)", value = TRUE),#
+                checkboxInput("hm_rownames", "Show gene symbols (row names)", value = TRUE),#
+                checkboxInput("hm_col_cluster", "Cluster columns", value = TRUE),#
+                checkboxInput("hm_row_cluster", "Cluster rows", value = TRUE),#
+                numericInput("hm_width", "Plot width (px)", value = 900, min = 100, max = 2400, step = 10),#
+                numericInput("hm_height", "Plot height (px)", value = 1200, min = 100, max = 2400, step = 10))#
+        ),#
+        mainPanel(#
+            tabsetPanel(type = "tabs",#
+            tabPanel("Heatmap", value=1, h4("Cluster analysis and a heatmap representation of gene expression."), p("Genes with similar expression patterns will cluster as rows, while individual microarrays cluster as columns."), uiOutput("heatmap_ui")),#
+            tabPanel("Summary boxplots", h4("Boxplots of expression data by tissue."), plotOutput("overallPlot", height = 600)),#
+            tabPanel("By-gene boxplots", h4("Boxplots of expression data by gene."), plotOutput("byGenePlot", height = 600)),#
+            id = "absexpanel")#
+        )#
+        )#
+    ),#
+#
+    # Mixomics tab ---------------------------------------------#
+    tabPanel("Sample-level Expression",#
+        h3("Compare trends in samples based on experimental groups"),#
+        hr(),#
+        sidebarLayout(#
+        sidebarPanel(#
+            h4("Sample expression"),#
+            checkboxGroupInput("pls_tissues", label = "Select tissues to inclued",#
+            choices = NULL, selected = NULL),#
+            # checkboxInput("pls_probe", "Perform PLS-DA at probe level", value = FALSE),#
+            br(),#
+            h4("Gene contribution plot"),#
+            uiOutput("numGenesUI"),#
+            radioButtons("pls_ncomp", "Select component for gene contribution plot", choices = c(1,2)),#
+            br()#
+            # downloadButton("pls_download", "Download gene contribution data")#
+        ),#
+        mainPanel(#
+            tabsetPanel(type = "tabs",#
+            tabPanel("Discriminant Analysis", h4("Sparse Partial Least Squares Discriminant Analysis (sPLS-DA)  selects genes that are informative about a specific group. "), plotOutput("indPlot", height = 800)),#
+            tabPanel("Component loadings plot", h4("Gene contribution to each principle component."), p("The longer the bar (in either direction) the more that gene contributes to that component."), plotOutput("contribPlot", height = 800)),#
+            tabPanel("Circle variance", h4("Circle variance projections onto tissue."), p("Strongly correlated genes are projected in the same direction from the origin; the greater the distance the stronger the association."), plotOutput("varPlot", height = 800))#
+        ),#
+        position = c("right","left"),#
+        fluid = TRUE#
+        )#
+        )#
+    )#
+)#
+)
+server <- function(input, output, session) {#
+#   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-#
+#  / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \#
+# `-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'#
+#
+#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#
+## This is the database search begins#
+#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#
+#
+# Quick link from the main page#
+observeEvent(input$linkSearch, {#
+  updateNavbarPage(session, "receptorMain", selected="searchPanel")#
+})#
+# Set up colour environment#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+  catCol <- RColorBrewer::brewer.pal(3, "Set1")#
+  rowCol <-desat(catCol)#
+  userID <- NULL#
+  ## Set up reactive table to store experimental samples#
+  userSamples <- reactiveValues()#
+  userSamples$df <- data.frame()#
+  # 2019-07-31 Upload user data#
+  # Upload read count table#
+  #_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+  userEset <- reactive({#
+      inFile <- input$eset_upload#
+      if (is.null(inFile))#
+          return(NULL)#
+      df<- read.csv(inFile$datapath,header=TRUE,sep=",")#
+      return(df)#
+  })#
+  output$upload_table <- DT::renderDataTable({#
+      df <- userEset()#
+      datatable(df, options=list(#
+          searching=TRUE, #
+          paging=TRUE,#
+          scrollX=TRUE, #
+          scrollY='25vh',#
+          scrollCollapse=TRUE,#
+          fixedHeader=TRUE,#
+          autoWidth=FALSE))#
+      })#
+  observeEvent(input$uploadButton, {#
+      showModal(modalDialog(title="Select your data to upload for analysis","Make sure things look right before proceeding. There is the ability to add some options here, if I want to make it slightly more flexible (e.g. separator, header).", radioButtons("speciesSelection", "Choose species:", choices = c("Mouse" = "mouse", "Human" = "human")),#
+          fileInput('eset_upload','Choose file to upload', accept = c('text/csv','text/comma-separated-values','.csv')),#
+          DT::dataTableOutput("upload_table"),#
+          easyClose = TRUE,#
+          footer = tagList(#
+              actionButton("uploaded","Upload read table"))))#
+  })#
+  # 'uploaded file' flag#
+  eset_is_uploaded = FALSE#
+  observeEvent(input$uploaded, {#
+      eset_is_uploaded <<- TRUE#
+      removeModal()#
+      uploadSamples <- userEset()#
+      tableRows <- ncol(uploadSamples)#
+      userSamples$df <<- data.frame(samples = colnames(uploadSamples), category = rep("Not yet assigned", tableRows), features = rep(nrow(uploadSamples), tableRows), description = rep("User uploaded samples",tableRows))#
+      updateTabsetPanel(session = session, inputId = "searchpanel", selected = "2")  ## jump to 'Assign' tab#
+  })#
+#
+  observeEvent(input$clear_upload, {#
+      eset_is_uploaded <<- FALSE#
+      userSamples$df <<- data.frame()#
+      removeModal()#
+  })#
+#
+# Assign categories to each sample (GSM)#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+  observeEvent(input$assignButton, {#
+        userSamples$df[,"category"] <<- as.character(userSamples$df[,"category"])#
+        userSamples$df[input$gsm_table_rows_selected,"category"] <<- input$selection#
+        userSamples$df[,"category"] <<- as.factor(userSamples$df[,"category"])#
+  })      #
+  output$gsm_table <- DT::renderDataTable({#
+      if(input$assignButton == 0){#
+         return (datatable(userSamples$df, extensions = 'Buttons', options=list(#
+               dom = 'Bfrtip',#
+               buttons = list(list(extend = 'colvis')),#
+               searching=TRUE, #
+               paging=FALSE,#
+               scrollX=TRUE, #
+               scrollY='60vh', #
+               scrollCollapse=TRUE,#
+               fixedHeader=TRUE,#
+               autoWidth=TRUE,#
+               columnDefs=list(list(#
+             targets = "_all",#
+             render = JS(#
+                 "function(data, type, row, meta) {",#
+                     "return type === 'display' && typeof data === 'string' && data.length > 100 ?",#
+                     "'<span title=\"' + data + '\">' + data.substr(0, 100) + '...</span>' : data;",#
+                     "}")#
+                     )))))#
+      } else {#
+         return (datatable(userSamples$df, extensions = 'Buttons', options=list(#
+             dom = 'Bfrtip',#
+             buttons = list(list(extend = 'colvis')),#
+             searching=TRUE, #
+             paging=FALSE,#
+             scrollX=TRUE, #
+             scrollY='60vh', #
+             scrollCollapse=TRUE,#
+             fixedHeader=TRUE,#
+             autoWidth=TRUE,#
+             columnDefs=list(list(#
+             targets = "_all",#
+             render = JS(#
+                 "function(data, type, row, meta) {",#
+                     "return type === 'display' && typeof data === 'string' && data.length > 100 ?",#
+                     "'<span title=\"' + data + '\">' + data.substr(0, 100) + '...</span>' : data;",#
+                     "}")#
+                     )))) %>%#
+                     formatStyle('category', target="row", backgroundColor=styleEqual(c(input$cat1, input$cat2, input$cat3), c(rowCol[1], rowCol[2], rowCol[3]))))#
+      }#
+  })#
+  proxy.gsm = DT::dataTableProxy('gsm_table')#
+  observeEvent(input$assignButton,{#
+      proxy.gsm %>% selectRows(NULL)#
+  }) #
+  ## UI output#
+#
+    output$categorySelect <- renderUI(#
+      fluidRow(#
+        column(12,#
+               selectizeInput("selection", "Select a Category",#
+                           c("category1" <- {input$cat1},#
+                             "category2" <- {input$cat2},#
+                             "category3" <- {input$cat3},#
+                             "category4" <- "Not included")#
+                             # , options = list(create=TRUE, plugins = list("remove_button")))  ### <- "remove_button" isn't what I thought it was. I would also like the "create" option but I will need to link this to the table as cat1-3 are linked (otherwise new variables are not coloured or sent along for processing)#
+        )#
+      )     ### 2018-12-10 I'd like to have a button to add category 3#
+    )#
+    )  #
+# Finished table, to ultimately lead to CEL download#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+userSamples$finishedtable <- NULL#
+#
+observeEvent(input$assignButton, {#
+    userSamples$finishedtable <<- dplyr::filter(userSamples$df, category %in% c(input$cat1, input$cat2, input$cat3))#
+})#
+  output$finishedtable <- DT::renderDataTable({#
+      if(!is.null(userSamples$finishedtable)){#
+      datatable(userSamples$finishedtable,#
+      options=list(#
+          searching=FALSE, #
+          paging=FALSE,#
+          scrollX=TRUE, #
+          scrollY='60vh', #
+          scrollCollapse=TRUE,#
+          fixedHeader=TRUE,#
+          autoWidth=TRUE,#
+          columnDefs=list(list(#
+          targets = "_all",#
+          render = JS(#
+              "function(data, type, row, meta) {",#
+                  "return type === 'display' && typeof data === 'string' && data.length > 100 ?",#
+                  "'<span title=\"' + data + '\">' + data.substr(0, 100) + '...</span>' : data;",#
+                  "}")#
+          )))) %>%#
+      formatStyle('category',target="row",#
+      backgroundColor=styleEqual(c(input$cat1,input$cat2,input$cat3),c(rowCol[1],rowCol[2],rowCol[3]))#
+  )}})#
+#
+rv <- reactiveValues(download_flag = 0)#
+  output$report <- downloadHandler(#
+      filename = function(){paste(input$downloadId,"processed_data.rda",sep="_")},#
+      content = function(file){#
+          save(mylist,file = file)#
+          rv$download_flag <- rv$download_flag + 1#
+      })#
+# Modal confirming CEL download, and processing function#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_     #
+observeEvent(input$downloadRDA, {#
+            shinyjs::disable("downloadRDA")#
+            mylist<<-processDataUpload(userSamples$finishedtable, userEset(), input$downloadId, input$comments, input$speciesSelection)#
+            showModal(modalDialog(title="Your dataset was successfully processed!","Next, save the processed data file to your local computer using the \"Download\" button. This file can then be uploaded from the menu on the \"Load Expression Datasets\" tab.",#
+            easyClose = TRUE,#
+            footer = tagList(#
+                actionButton("uploaded","OK"),downloadButton("report","Download"))))# modal#
+        })#
+# Reset button, modal confirmation#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+  observeEvent(input$linkReset, {#
+      showModal(modalDialog(title="Important! Are you sure you want to reset everything?","All data and categorized samples will be lost. This can not be undone.",#
+      footer = tagList(#
+          modalButton("Cancel"),#
+          actionButton("buttonReset","Yes, reset."))))# modal#
+      # confirm reset (all categories, sample search, gone)#
+      observeEvent(input$buttonReset, {#
+          shinyjs::enable("gplSelection")#
+          userSamples$df <<- userSamples$df[0,]#
+          reset("searchText")#
+          reset("cat1")#
+          reset("cat2")#
+          reset("cat3")#
+          reset("downloadId")#
+          replaceData(proxy.search, NULL)#
+          replaceData(proxy.gsm, NULL)#
+          userSamples$finishedtable <<- NULL#
+          removeModal()#
+          updateTabsetPanel(session = session, inputId = "searchpanel", selected = "1")#
+        })#
+  })#
+#   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-#
+#  / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \#
+# `-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'#
+#
+#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#
+## This is where the analysis begins#
+#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#
+#
+# Quick link from the modal#
+observeEvent(input$uploaded, {#
+  updateNavbarPage(session, "receptorMain", selected="expressionPanel")#
+})#
+#
+# Conditional nav tabs#
+hideTab(inputId = "receptorMain", target = "Gene-level Expression")#
+hideTab(inputId = "receptorMain", target = "Sample-level Expression")#
+#
+observeEvent(input$user_data,{#
+    if(input$user_data!="none"){#
+        showTab(inputId = "receptorMain", target = "Gene-level Expression")#
+        showTab(inputId = "receptorMain", target = "Sample-level Expression")#
+    } else {#
+        hideTab(inputId = "receptorMain", target = "Gene-level Expression")#
+        hideTab(inputId = "receptorMain", target = "Sample-level Expression")#
+#
+    }#
+})#
+#
+# Load dataset#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+output$loadUserExperiments = renderUI({#
+    selectizeInput(inputId="user_data",label="Select an experiment for analysis",choices=c("none"="none","upload processed data file (.rda)"="upload",paste(global$DatasetTable$desc)),selected="none")#
+})#
+userProcessed <- reactive({#
+    inFile2 <- input$processed_upload#
+    if (is.null(inFile2))#
+        return(NULL)#
+    load(inFile2$datapath,.GlobalEnv)#
+    return(mylist)#
+})#
+#
+observeEvent(input$user_data,{#
+    id <- NULL#
+    datasetToLoad <- NULL#
+   if(input$user_data=="none"){#
+        uploaded_features<<-NULL ## ^ this set will be used for uploaded data#
+        eset<<-NULL#
+        de_choices<<-NULL#
+        sig_genes_lfc<<-NULL#
+#
+    } else if (input$user_data == "upload"){#
+        showModal(modalDialog(title="Select your data to upload for visualization",#
+            fileInput('processed_upload','Choose file to upload', accept = c('.rda')),#
+            easyClose = TRUE, footer = tagList(actionButton("uploadAnalysis","Analyse"),modalButton("Cancel"))))#
+        } else {#
+        id <- global$DatasetTable$userID[which(global$DatasetTable$desc == input$user_data)]#
+        assign(#
+              x = "species", value = global$DatasetTable$species[which(global$DatasetTable$desc == input$user_data)], envir = .GlobalEnv#
+           )#
+           uploaded_features <<-NULL ## I think this might have to be here for non-uploaded datasets#
+        datasetToLoad <- system.file("extdata",paste("app_data_", id, ".rda", sep=''),package="receptoR")#
+        withProgress(message="Loading dataset",value=0.2,{#
+            load(datasetToLoad,envir=.GlobalEnv)#
+            incProgress(0.3, message = "Loading contrasts")#
+            cat(file=stderr(),"Groups are the issue:\n",categories,"\nDE choices:\n",de_choices,"\n")#
+            updateCheckboxGroupInput(session, "tissues", choices = categories, selected = categories)#
+            updateCheckboxGroupInput(session, "pls_tissues", choices = categories, selected = categories)#
+            updateCheckboxGroupInput(session, "de", choices = de_choices, selected = de_choices[1])#
+#
+            incProgress(0.3, message ="Loading genelists")#
+            updateCheckboxGroupInput(session, "genelist", label = NULL, choices = names(gene_lists[[species]]), selected = NULL, inline = FALSE)#
+            incProgress(0.2, message = "Loading gene names")#
+            updateSelectInput(session, "gene", choices = make.names(uploaded_features))#
+        })#
+    }#
+})#
+#
+observeEvent(input$uploadAnalysis, {#
+    withProgress(message="Loading dataset",value=0.2,{#
+        incProgress(0.3, message = "Loading contrasts")#
+        uploaded_features <<- userProcessed()$uploaded_features#
+        eset <<- userProcessed()$eset#
+        de_choices <<- userProcessed()$de_choices#
+        sig_genes_lfc <<- userProcessed()$sig_genes_lfc#
+        categories <<- userProcessed()$categories#
+        timeStamp <<- userProcessed()$timeStamp#
+        species <<- userProcessed()$species#
+        updateCheckboxGroupInput(session, "tissues", choices = categories, selected = categories)#
+        updateCheckboxGroupInput(session, "pls_tissues", choices = categories, selected = categories)#
+        updateCheckboxGroupInput(session, "de", choices = de_choices, selected = de_choices[1])#
+#
+        incProgress(0.3, message ="Loading genelists")#
+        updateCheckboxGroupInput(session, "genelist", label = NULL, choices = names(gene_lists[[species]]), selected = NULL, inline = FALSE)#
+        incProgress(0.2, message = "Loading gene names")#
+        updateSelectInput(session, "gene", choices = make.names(uploaded_features))#
+        removeModal()#
+    })#
+})#
+#
+# Download DEG#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+#
+rvDEG <- reactiveValues(download_flag = 0)#
+#
+  # proxy.finishedtable = dataTableProxy('finishedtable')#
+  output$reportDEG <- downloadHandler(#
+      filename = paste(input$user_data,"DEG_report.xlsx",sep="_"),#
+      # filename = paste(input$user_data,"DEG_report.csv",sep="_"),#
+      content = function(file){#
+          write_xlsx(sig_genes_lfc, path=file)#
+          rvDEG$download_flag <- rvDEG$download_flag + 1#
+      })#
+# Load genes tab#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+#
+  geneList = reactive({#
+    if (is.null(input$genelist) && is.null(input$gene)) {#
+      return(NULL)#
+    }#
+    genes = c()#
+#
+    if (!is.null(input$genelist)) {#
+      for (gene in input$genelist) {#
+        genes = c(genes, gene_lists[[paste(species)]][[gene]])#
+      }#
+    }#
+#
+    if (!is.null(input$gene)) {#
+      genes = c(genes, input$gene)#
+    }#
+    return(unname(genes))#
+  })#
+ summary_gene_data = reactive({#
+     validate(#
+       need(input$user_data!="none","No dataset selected. Please select an experiment for analysis."),#
+       need(geneList(), "No genes selected. Please select receptor type(s) to analyse.")#
+     )#
+   get_expression_summary(eset, geneList())#
+ })#
+# Gene outputs#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+  output$genes = DT::renderDataTable({#
+      validate(#
+        need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),#
+        need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),#
+        need(!is.null(summary_gene_data()), "Gene lists don't match features in your data. Check the input box below, you may have other identifiers that are not gene symbols.")#
+      )#
+     summary_gene_data() %>% datatable() %>% #
+      formatRound(2:4)#
+  })#
+  # single gene plot#
+ output$singleGenePlot = renderPlot({#
+     validate(#
+       need(input$user_data!="none","No dataset selected."),#
+       need(geneList(), "No genes selected."),#
+       need(input$genes_rows_selected >= 1, "Please select one or more genes from the 'Average Expression' table to inspect expression by tissue type.")#
+     )#
+    rows = as.integer(input$genes_rows_selected)#
+    genes_to_plot = summary_gene_data()$Symbol[rows]#
+    gene_data = get_gene_data(eset, genes_to_plot)#
+    density <- gene_data %>% group_by(tissue,Symbol) %>% summarise(count=n())#
+    cat(file=stderr(),"the density is ", as.matrix(density),"\n")#
+    if (any(density$count > 3)) {by_gene_violplot(gene_data,tissues=categories)}#
+        else {by_gene_boxplot(gene_data,tissues=categories)}#
+  })#
+#
+# Expression tab#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+  observe({#
+    toggle("de_choices", anim = TRUE, condition = input$de_state )#
+  })#
+  genesToPlot = reactive({#
+    validate(#
+      need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),#
+      need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'.")#
+    )#
+#
+    genes = geneList()#
+    if(input$de_state) {#
+      selected_de = input$de#
+      de_lists = lapply(selected_de, function(x) {as.character(get_de_genes(genes, x, sig_genes_lfc)$Symbol) })#
+      genes = Reduce(union, de_lists)#
+    } #
+    return(genes) #
+  }) #
+# Heatmap plot#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+  output$expressionPlot = renderPlot({#
+      validate(#
+          need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),#
+          need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),#
+          need(input$tissues, "No tissues selected. Please choose at least one tissue to plot receptor heatmap."),#
+          need(length(genesToPlot())>10, if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot as a heatmap (minimum = 10). Try including more receptor types in 'Load Data'.")})#
+    )#
+    selected_tissues = input$tissues#
+    sub_eset = eset[, eset$tissue %in% selected_tissues]#
+    genes = genesToPlot()#
+    cat(file=stderr(), "Preparing heatmap:\n Tissues:", paste(input$tissues, collapse = ", "), "\n gene list: ",paste(genesToPlot(),collapse=", "),"\n genes: ", paste(genes,collapse=", "),"\n")#
+    gene_heatmap(sub_eset, genes, scale = "row",#
+                  probe_level = FALSE,#
+                  gsm_show = input$hm_gsm,#
+                  show_rownames = input$hm_rownames,#
+                  cluster_rows = input$hm_row_cluster,#
+                  cluster_cols = input$hm_col_cluster,#
+                  border_color = NA)#
+    })#
+  output$heatmap_ui = renderUI({#
+    plotOutput("expressionPlot", height = input$hm_height, width = input$hm_width)#
+  })#
+#
+# Overall expression#
+#_,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,__,.-'~'-.,_#
+  output$overallPlot = renderPlot({#
+    validate(#
+        need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),#
+        need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),#
+    need(input$tissues, "No tissues selected. Please choose at least one tissue to plot receptor heatmap."),#
+    need(length(genesToPlot())>1, if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")}) #
+    )#
+    gene_data = get_gene_data(eset, genesToPlot())#
+    overall_expression_boxplot(gene_data, tissues = input$tissues)#
+  })#
+# By gene boxplots ----------------------------------------------------------------------------#
+#
+  output$byGenePlot = renderPlot({#
+      validate(#
+          need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),#
+          need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),#
+      need(input$tissues, "No tissues selected. Please choose at least one tissue to plot receptor heatmap."),#
+      need(length(genesToPlot())>1, if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")}) #
+      )    #
+    gene_data = get_gene_data(eset, genesToPlot())#
+    by_gene_boxplot(gene_data, tissues = input$tissues)#
+  })#
+  plsdaData = reactive({#
+    selected_tissues = input$pls_tissues#
+    if(length(selected_tissues) < 2) {#
+      return(NULL)#
+    }#
+    sub_eset = eset[, eset$tissue %in% selected_tissues]#
+    genes = genesToPlot()#
+    if(is.null(uploaded_features)){genes = gene2probe(genesToPlot(), mapped_probes)}#
+    if(length(genes) < 10) {#
+        cat(file=stderr(),"genes are: ",genes,"\n")#
+      return(NULL)#
+    }#
+    # probe = input$pls_probe#
+    get_plsda(sub_eset, genes, probe = FALSE) #
+  })#
+#
+# PCA plot ----------------------------------------------------------------------------#
+  output$indPlot = renderPlot({#
+    validate(#
+       need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),#
+       need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),#
+       need(length(input$pls_tissues) >= 2, "Please select at least two tissues for a PLS-DA plot."),#
+       need(!is.null(plsdaData()$result), if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")})#
+    )#
+    plotIndiv(plsdaData()$result, ind.names = FALSE, group = factor(plsdaData()$tissue_grps), pch = 16, #
+              col.per.group = brewer.pal(3, "Set1")[1:length(input$pls_tissues)], legend = TRUE, cex = 2, ellipse=TRUE, title="Plot of individual samples",style="graphics")#
+  })#
+#
+# Correlation Circle plot ----------------------------------------------------------------------------  #
+  output$varPlot = renderPlot({#
+      validate(#
+         need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),#
+         need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),#
+         need(length(input$pls_tissues) >= 2, "Please select at least two tissues for a Correlation circle plot."),#
+         need(!is.null(plsdaData()$result), if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")})#
+      )#
+      comp = as.integer(input$pls_ncomp)#
+    plotVar(plsdaData()$result, var.names = list(plsdaData()$varNames), comp.select=comp, cex = 1, overlap=FALSE, col="grey",title="Correlation circle between genes and discriminant components", style="graphics")#
+  })#
+#
+  output$numGenesUI = renderUI({#
+    numericInput("pls_num_genes", "Select number of genes to show contributions for", #
+                 value = 25, min = 1, max = length(geneList()), step = 1)#
+  })#
+# Loadings plot ----------------------------------------------------------------------------#
+  output$contribPlot = renderPlot({#
+      validate(#
+         need(input$user_data!="none","No dataset selected. Please select an experiment for analysis in 'Load Expression Data'."),#
+         need(geneList(), "No genes selected. Please select receptor type(s) to analyse in 'Load Expression Data'."),#
+         need(length(input$pls_tissues) >= 2, "Please select at least two tissues for a Loadings plot."),#
+         need(!is.null(plsdaData()$result), if(input$de_state){paste("Based on the genes selected in 'Load Data', ", length(genesToPlot())," genes were differentially expressed in these tissues (",paste(input$tissues, collapse = ", "), "); try unselecting that option in the side menu.",sep="")}else{paste("No genes to plot. Try including more receptor types in 'Load Data'.")})#
+      )#
+    grps = plsdaData()$result$names$colnames$Y#
+    ndisplay = input$pls_num_genes#
+    comp = as.integer(input$pls_ncomp)#
+    plotLoadings(plsdaData()$result, name.var = plsdaData()$varNames, ndisplay = ndisplay, comp = comp, contrib='max', method='mean',legend.color = catCol[1:length(grps)],title=paste("Weight of the top ", ndisplay, " genes contributing to discriminant component ", comp, sep=""),size.title=1)#
+  })#
+#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$  #
+  ## Kill shinyApp when session closes#
+  session$onSessionEnded(stopApp)#
+#
+}
+q()

@@ -1,0 +1,16 @@
+Package: receptoR
+Type: Package
+Title: Gene Expression analysis of molecular receptors from transcriptomics data
+Version: 1.0
+Authors@R: c(person("Derek", "Toms", email = "derek.toms@ucalgary.ca", role = c("aut", "cre")),person("Matthew", "Workentine", email = "matthew.workentine@ucalgary.ca", role = c("aut", "cre")))
+Description: Predict potentially active signalling pathways in one or more cell type(s) of interest from transcriptome data. Our approach can be easily used to mine transcriptome data and generate hypotheses around receptor expression that can be used to identify novel signaling pathways in specific cell types of interest.
+License: GPLv3
+LazyData: TRUE
+Depends: affy,dplyr,tidyr,ggplot2,reshape2,RColorBrewer,readr,stringr,shiny,shinythemes,shinyjs,dbplyr,DT,limma,annotate,pheatmap,mixOmics,cowplot,writexl
+RoxygenNote: 6.1.1
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2019-08-07 19:22:22 UTC; Derek
+Author: Derek Toms [aut, cre]
+Maintainer: Matthew Workentine <matthew.workentine@ucalgary.ca>
