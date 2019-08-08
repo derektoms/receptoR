@@ -43,6 +43,9 @@ To search and characterize publicly available microarray data, have a look at th
 5      Taf9b       0       0       0       1       0       0       0       0
 6   BC051142       0       0       2       3       1       2       2       0
 ```
+This table, saved as a CSV, can be uploaded to receptoR.
+### Loading expression datasets
+Once you have processed datasets, these can be uploaded to the application for analysis. From the drop-down menu, select "upload processed data file (.rda)" and locate the saved file on your computer. When this has been loaded, receptor gene lists can be selected and individual gene expression analysed. From the "Gene-level Expression" and "Sample-level Expression" tabs, clustering and discriminate analysis can be performed on the entire list. 
 
 ---
 
