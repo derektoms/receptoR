@@ -33,7 +33,16 @@ receptoR::launchApp()
 ```
 This will open a browser window where you can interact with the **receptoR** application. Compiled read tables can be annotated in the "Upload Transcriptome Data" tab and ultimately processed to R data files (.RDA) that can be used by the app for analysis. This is performed on the "Load Expression Datasets" tab. Currently the package comes with an RNA-seq example dataset comparing expression between mouse retina and retinal pigment epithelium using control animal data from three publicly available GEO datasets (accession: [GSE114945](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114945), [GSE121858](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE121858), and [GSE131954](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE131954)).
 ### Uploading read tables
-To search and characterize publicly available microarray data, have a look at the online version of [**receptoR**](https://wcm.ucalgary.ca/ungrinlab/receptoR). For RNA-seq or unpublished data, you are able to upload a read count table and perform the same analysis. Processing raw transcriptome data is beyong the scope of this document, but ultimately the format is a matrix of samples (columns) by features (rows). A properly formatted count table should be free of missing values, and not be normalised (i.e. raw counts). Gene symbols are the required identifier for features and should be based on human (HGNC) and mouse (MGI) nomenclature.
+To search and characterize publicly available microarray data, have a look at the online version of [**receptoR**](https://wcm.ucalgary.ca/ungrinlab/receptoR). For RNA-seq or unpublished data, you are able to upload a read count table and perform the same analysis. Processing raw transcriptome data is beyong the scope of this document, but ultimately the format is a matrix of samples (columns) by features (rows). A properly formatted count table should be free of missing values, and not be normalised (i.e. raw counts). Gene symbols are the required identifier for features and should be based on human (HGNC) and mouse (MGI) nomenclature. For the example dataset included with the package, the top of the raw count table looks like this (*NB* only the first nine rows are shown):
+```
+  GeneSymbol CFG2279 CFG2280 CFG2281 CFG2282 CFG2283 CFG2284 CFG2285 CFG2286
+1  Zfp85-rs1      45      45      65      55      51      56      51      36
+2       Scap       4       7      11       9       6       5       7       9
+3     Zfp458     318     359     477     348     310     391     440     407
+4     Fbxo41     138     142     172     170     133     148     205     204
+5      Taf9b       0       0       0       1       0       0       0       0
+6   BC051142       0       0       2       3       1       2       2       0
+```
 
 ---
 
