@@ -29,10 +29,10 @@
 #' @import shinyjs
 #' @import dbplyr
 #' @import DT
-
-# Bioinformatics packages installed BiocManager:
+#' @import writexl
 
 #' @import BiocManager
+# Bioinformatics packages installed BiocManager:
 
 #' @import Biobase
 #' @import limma
@@ -41,8 +41,6 @@
 #' @import mixOmics
 #' @import cowplot
 #' @import affy
-
-#' @import writexl
 
 source("functions.R")
 global <- reactiveValues (DatasetTable = loadUserDatasets())
@@ -101,7 +99,7 @@ observeEvent(input$linkSearch, {
       })
   
   observeEvent(input$uploadButton, {
-      showModal(modalDialog(title="Select your data to upload for analysis","Make sure things look right before proceeding. There is the ability to add some options here, if I want to make it slightly more flexible (e.g. separator, header).", radioButtons("speciesSelection", "Choose species:", choices = c("Mouse" = "mouse", "Human" = "human")),
+      showModal(modalDialog(title="Select your data to upload for analysis","Please ensure your data looks right before proceeding. A properly formatted count table should be free of missing values, and not be normalised (i.e. raw counts). Gene symbols are the required identifier and should be based on human (HGNC) and mouse (MGI) nomenclature.", radioButtons("speciesSelection", "Choose species for gene symbol annotation:", choices = c("Mouse" = "mouse", "Human" = "human")),
           fileInput('eset_upload','Choose file to upload', accept = c('text/csv','text/comma-separated-values','.csv')),
           DT::dataTableOutput("upload_table"),
           easyClose = TRUE,
