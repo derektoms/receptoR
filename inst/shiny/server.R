@@ -44,7 +44,7 @@
 
 source("functions.R")
 global <- reactiveValues (DatasetTable = loadUserDatasets())
-options(shiny.maxRequestSize=30*1024^2) ## 30 MB max file upload
+options(shiny.maxRequestSize=100*1024^2) ## 30 MB max file upload
 ########################################
 #$#$#$#$#$#$#    SERVER    #$#$#$#$#$#$#
 ########################################
